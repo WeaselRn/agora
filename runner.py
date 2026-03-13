@@ -133,12 +133,10 @@ async def evaluate_policy(
     ]
 
     # Use as_completed pattern so we can stream results progressively
-    completed_evals = []
     for coro in asyncio.as_completed(tasks):
         result = await coro
         if result is not None:
             report.evaluations.append(result)
-            completed_evals.append(asdict(result))
             if callback:
                 await callback("evaluation", asdict(result))
 
@@ -153,6 +151,14 @@ async def evaluate_policy(
     # ── Phase 2: Debate Loop (2 rounds) ──
     all_debate_dicts: list[list[dict]] = []
 
+    # Build a set of names that completed evaluation — used to gate debate participation.
+    # Assert every name maps back to a known persona so name drift is caught immediately.
+    evaluated_names: set[str] = {e.agent_name for e in report.evaluations}
+    known_names: set[str] = {p.name for p in PERSONAS}
+    unknown = evaluated_names - known_names
+    if unknown:
+        raise ValueError(f"Evaluated agent names not found in PERSONAS: {unknown}")
+
     for round_num in range(1, 3):
         if callback:
             await callback("debate_round_start", {"round": round_num})
@@ -160,7 +166,7 @@ async def evaluate_policy(
         debate_tasks = [
             run_single_debate(persona, policy_text, eval_dicts, round_num, llm)
             for persona in PERSONAS
-            if any(e.agent_name == persona.name for e in report.evaluations)
+            if persona.name in evaluated_names
         ]
 
         round_entries: list[DebateEntry] = []
@@ -211,6 +217,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Singleton LLM client — shared across all requests so the semaphore and
+# rate-limit tracker are global, not per-request.
+_llm = create_llm_client()
+
 
 class EvaluateRequest(BaseModel):
     policy_text: str
@@ -219,7 +229,6 @@ class EvaluateRequest(BaseModel):
 @app.post("/api/evaluate")
 async def api_evaluate(request: EvaluateRequest):
     """Evaluate a policy and stream results via Server-Sent Events."""
-    llm = create_llm_client()
 
     async def event_generator():
         queue: asyncio.Queue = asyncio.Queue()
@@ -229,7 +238,7 @@ async def api_evaluate(request: EvaluateRequest):
 
         async def run_pipeline():
             try:
-                await evaluate_policy(request.policy_text, llm, callback=sse_callback)
+                await evaluate_policy(request.policy_text, _llm, callback=sse_callback)
             except Exception as exc:
                 await queue.put({"event": "error", "data": json.dumps({"message": str(exc)})})
             finally:

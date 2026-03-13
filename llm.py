@@ -97,28 +97,41 @@ class GeminiClient(LLMClient):
 
         self._model = os.environ.get("LLM_MODEL", "gemini-2.5-flash-lite")
         self._client = genai.Client(api_key=api_key)
-        self._semaphore = asyncio.Semaphore(1)
+        self._semaphore = asyncio.Semaphore(3)
         self._last_call_time: float = 0.0
 
     async def generate(self, prompt: str) -> str:
         """Send a prompt to Gemini and return the text response."""
-        async with self._semaphore:
-            # Rate limiting — enforce minimum interval
-            now = time.monotonic()
-            elapsed = now - self._last_call_time
-            if elapsed < self.MIN_INTERVAL:
-                await asyncio.sleep(self.MIN_INTERVAL - elapsed)
-
-            loop = asyncio.get_event_loop()
-            response = await loop.run_in_executor(
-                None,
-                lambda: self._client.models.generate_content(
-                    model=self._model,
-                    contents=prompt,
-                ),
-            )
-            self._last_call_time = time.monotonic()
-            return response.text
+        loop = asyncio.get_running_loop()
+        for attempt in range(3):
+            try:
+                async with self._semaphore:
+                    # Rate limiting — enforce minimum interval
+                    now = time.monotonic()
+                    elapsed = now - self._last_call_time
+                    if elapsed < self.MIN_INTERVAL:
+                        await asyncio.sleep(self.MIN_INTERVAL - elapsed)
+                    self._last_call_time = time.monotonic()  # stamp BEFORE call so next coroutine backs off
+                    response = await loop.run_in_executor(
+                        None,
+                        lambda: self._client.models.generate_content(
+                            model=self._model,
+                            contents=prompt,
+                        ),
+                    )
+                    return response.text
+            except Exception as exc:  # noqa: BLE001
+                if "429" in str(exc) or "quota" in str(exc).lower():
+                    wait = 15 * (attempt + 1)  # 15s, 30s, 45s
+                    logger.warning(
+                        "Rate limited, waiting %ds (attempt %d/3)",
+                        wait,
+                        attempt + 1,
+                    )
+                    await asyncio.sleep(wait)
+                else:
+                    raise
+        raise RuntimeError("Exceeded retry limit on rate limiting")
 
 
 # ─────────────────────────────────────────────

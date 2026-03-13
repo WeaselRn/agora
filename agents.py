@@ -186,6 +186,7 @@ def build_debate_prompt(
     round_num: int,
 ) -> str:
     other_evals = [e for e in all_evaluations if e["agent_name"] != persona.name]
+    peer_names = [e["agent_name"] for e in other_evals]
     evals_text = "\n\n".join(
         f"── {e['agent_name']} ({e['agent_role']}) — Score: {e['score']}/10, Rec: {e['recommendation']} ──\n"
         f"Summary: {e['summary']}\n"
@@ -224,8 +225,10 @@ TASK: Engage with your colleagues' arguments. This is NOT a polite roundtable �
 
 You MUST respond with ONLY a valid JSON object:
 
+Valid colleague names you may address (use EXACTLY as written): {json.dumps(peer_names)}
+
 {{
-  "addressing": ["Name of colleague 1 you're responding to", "Name of colleague 2"],
+  "addressing": [<one or more names from the valid list above, exactly as written>],
   "pushback": "Your strongest counter-argument or critique of their positions — be specific and cite evidence",
   "concession": "What, if anything, you now concede based on others' arguments (say 'None' if nothing changed your mind)",
   "position_shift": "<exactly one of: unchanged | softened | hardened | revised>",
