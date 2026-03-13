@@ -1,4 +1,5 @@
 #Dependencies
+__pycache__
 __pycache__/
 
 #Environment variables
@@ -9,3 +10,5 @@ __pycache__/
 #Python
 venv/
 .venv/
+
+report.json
