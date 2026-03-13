@@ -1020,69 +1020,30 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
             showStatus('Initializing AI panel...', '0/5 agents');
 
             // Connect to SSE endpoint
-            fetch(`${API_URL}/api/evaluate`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ policy_text: policyText }),
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
+            const source = new EventSource(`${API_URL}/api/evaluate?policy_text=${encodeURIComponent(policyText)}`);
 
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let buffer = '';
+            source.addEventListener('evaluation', e => handleEvent('evaluation', e.data));
+            source.addEventListener('debate_round_start', e => handleEvent('debate_round_start', e.data));
+            source.addEventListener('debate', e => handleEvent('debate', e.data));
+            source.addEventListener('synthesis_start', e => handleEvent('synthesis_start', e.data));
+            source.addEventListener('synthesis', e => handleEvent('synthesis', e.data));
+            
+            source.addEventListener('complete', e => {
+                handleEvent('complete', e.data);
+                source.close();
+            });
 
-                function processStream() {
-                    reader.read().then(({ done, value }) => {
-                        if (done) {
-                            hideStatus();
-                            runBtn.disabled = false;
-                            return;
-                        }
+            source.addEventListener('error', e => {
+                handleEvent('error', e.data);
+                source.close();
+            });
 
-                        buffer += decoder.decode(value, { stream: true });
-
-                        // Parse SSE events from buffer
-                        const lines = buffer.split('\n');
-                        buffer = lines.pop();
-
-                        let eventType = null;
-                        let eventData = null;
-
-                        for (let i = 0; i < lines.length; i++) {
-                            const line = lines[i];
-
-                            if (line.startsWith('event:')) {
-                                eventType = line.substring(6).trim();
-                            } else if (line.startsWith('data:')) {
-                                eventData = line.substring(5).trim();
-                            } else if (line === '' && eventType && eventData) {
-                                // Complete event
-                                handleEvent(eventType, eventData);
-                                eventType = null;
-                                eventData = null;
-                            } else if (line !== '') {
-                                // Incomplete event, push remaining back to buffer
-                                buffer = lines.slice(i).join('\n') + (buffer ? '\n' + buffer : '');
-                                break;
-                            }
-                        }
-
-                        processStream();
-                    }).catch(err => {
-                        showError(`Stream error: ${err.message}`);
-                        hideStatus();
-                        runBtn.disabled = false;
-                    });
-                }
-
-                processStream();
-            }).catch(err => {
-                showError(`Connection failed: ${err.message}. Make sure the server is running (uvicorn runner:app --port 8000).`);
+            source.onerror = (err) => {
+                showError('Connection failed or stream interrupted. Make sure the server is running (uvicorn runner:app --port 8000).');
                 hideStatus();
                 runBtn.disabled = false;
-            });
+                source.close();
+            };
         }
 
         function handleEvent(type, dataStr) {

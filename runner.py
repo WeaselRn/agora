@@ -22,8 +22,10 @@ from typing import Awaitable, Callable, Optional
 
 from fastapi import FastAPI  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
+from fastapi.responses import HTMLResponse  # type: ignore
 from pydantic import BaseModel  # type: ignore
 from sse_starlette.sse import EventSourceResponse  # type: ignore
+from pathlib import Path
 
 from agents import (
     PERSONAS,  # type: ignore
@@ -234,9 +236,15 @@ _llm = create_llm_client()
 class EvaluateRequest(BaseModel):
     policy_text: str
 
+@app.get("/")
+async def serve_frontend():
+    """Serve the frontend index.html."""
+    html_content = Path("index.html").read_text(encoding="utf-8")
+    return HTMLResponse(html_content)
 
-@app.post("/api/evaluate")
-async def api_evaluate(request: EvaluateRequest):
+
+@app.get("/api/evaluate")
+async def api_evaluate(policy_text: str):
     """Evaluate a policy and stream results via Server-Sent Events."""
 
     async def event_generator():
@@ -247,7 +255,7 @@ async def api_evaluate(request: EvaluateRequest):
 
         async def run_pipeline():
             try:
-                await evaluate_policy(request.policy_text, _llm, callback=sse_callback)  # type: ignore
+                await evaluate_policy(policy_text, _llm, callback=sse_callback)  # type: ignore
             except Exception as exc:
                 await queue.put({"event": "error", "data": json.dumps({"message": str(exc)})})
             finally:
