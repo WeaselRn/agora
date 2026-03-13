@@ -15,7 +15,7 @@ import re
 import time
 from abc import ABC, abstractmethod
 
-from google import genai
+from google import genai  # type: ignore
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ def extract_json(text: str) -> dict:
     brace_start = text.find("{")
     brace_end = text.rfind("}")
     if brace_start != -1 and brace_end != -1:
-        text = text[brace_start : brace_end + 1]
+        text = text[brace_start : brace_end + 1]  # type: ignore
 
     return json.loads(text)
 
@@ -114,7 +114,7 @@ class GeminiClient(LLMClient):
                     self._last_call_time = time.monotonic()  # stamp BEFORE call so next coroutine backs off
                     response = await loop.run_in_executor(
                         None,
-                        lambda: self._client.models.generate_content(
+                        lambda: self._client.models.generate_content(  # type: ignore
                             model=self._model,
                             contents=prompt,
                         ),

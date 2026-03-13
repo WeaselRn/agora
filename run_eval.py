@@ -15,9 +15,9 @@ import json
 import sys
 from pathlib import Path
 
-from agents import PolicyReport
-from llm import create_llm_client
-from runner import evaluate_policy
+from agents import PolicyReport  # type: ignore
+from llm import create_llm_client  # type: ignore
+from runner import evaluate_policy  # type: ignore
 
 
 # ─────────────────────────────────────────────

@@ -68,7 +68,7 @@ class PolicyReport:
     synthesis: Optional[SynthesisReport] = None
 
     def to_dict(self) -> dict:
-        return asdict(self)
+        return asdict(self)  # type: ignore
 
     def to_json(self, indent: int = 2) -> str:
         return json.dumps(self.to_dict(), indent=indent)

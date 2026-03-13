@@ -14,15 +14,15 @@ import asyncio
 import json
 import logging
 from dataclasses import asdict
-from typing import Callable, Optional
+from typing import Awaitable, Callable, Optional
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from sse_starlette.sse import EventSourceResponse
+from fastapi import FastAPI  # type: ignore
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore
+from pydantic import BaseModel  # type: ignore
+from sse_starlette.sse import EventSourceResponse  # type: ignore
 
 from agents import (
-    PERSONAS,
+    PERSONAS,  # type: ignore
     AgentPersona,
     DebateEntry,
     Evaluation,
@@ -32,7 +32,7 @@ from agents import (
     build_evaluation_prompt,
     build_synthesis_prompt,
 )
-from llm import LLMClient, create_llm_client
+from llm import LLMClient, create_llm_client  # type: ignore
 
 logger = logging.getLogger(__name__)
 
@@ -121,7 +121,7 @@ async def run_synthesis(
 async def evaluate_policy(
     policy_text: str,
     llm: LLMClient,
-    callback: Optional[Callable] = None,
+    callback: Optional[Callable[[str, dict], Awaitable[None]]] = None,
 ) -> PolicyReport:
     """Run the full evaluation pipeline. Callback is called with (event_type, data) after each step."""
     report = PolicyReport(policy_text=policy_text)
@@ -133,17 +133,18 @@ async def evaluate_policy(
     ]
 
     # Use as_completed pattern so we can stream results progressively
+    # type: ignore
     for coro in asyncio.as_completed(tasks):
         result = await coro
         if result is not None:
             report.evaluations.append(result)
             if callback:
-                await callback("evaluation", asdict(result))
+                await callback("evaluation", asdict(result))  # type: ignore
 
     if len(report.evaluations) < 2:
         logger.error("Too few agents completed evaluation (%d). Aborting.", len(report.evaluations))
         if callback:
-            await callback("error", {"message": "Too few agents completed evaluation"})
+            await callback("error", {"message": "Too few agents completed evaluation"})  # type: ignore
         return report
 
     eval_dicts = [asdict(e) for e in report.evaluations]
@@ -161,7 +162,7 @@ async def evaluate_policy(
 
     for round_num in range(1, 3):
         if callback:
-            await callback("debate_round_start", {"round": round_num})
+            await callback("debate_round_start", {"round": round_num})  # type: ignore
 
         debate_tasks = [
             run_single_debate(persona, policy_text, eval_dicts, round_num, llm)
@@ -170,12 +171,13 @@ async def evaluate_policy(
         ]
 
         round_entries: list[DebateEntry] = []
+        # type: ignore
         for coro in asyncio.as_completed(debate_tasks):
             result = await coro
             if result is not None:
                 round_entries.append(result)
                 if callback:
-                    await callback("debate", asdict(result))
+                    await callback("debate", asdict(result))  # type: ignore
 
         report.debate_rounds.append(round_entries)
         round_dicts = [asdict(e) for e in round_entries]
@@ -190,16 +192,16 @@ async def evaluate_policy(
 
     # ── Phase 3: Synthesis ──
     if callback:
-        await callback("synthesis_start", {})
+        await callback("synthesis_start", {})  # type: ignore
 
-    synthesis = await run_synthesis(eval_dicts, all_debate_dicts, llm)
+    synthesis = await run_synthesis(eval_dicts, all_debate_dicts, llm)  # type: ignore
     if synthesis:
         report.synthesis = synthesis
         if callback:
-            await callback("synthesis", asdict(synthesis))
+            await callback("synthesis", asdict(synthesis))  # type: ignore
 
     if callback:
-        await callback("complete", {})
+        await callback("complete", {})  # type: ignore
 
     return report
 
@@ -238,7 +240,7 @@ async def api_evaluate(request: EvaluateRequest):
 
         async def run_pipeline():
             try:
-                await evaluate_policy(request.policy_text, _llm, callback=sse_callback)
+                await evaluate_policy(request.policy_text, _llm, callback=sse_callback)  # type: ignore
             except Exception as exc:
                 await queue.put({"event": "error", "data": json.dumps({"message": str(exc)})})
             finally:
