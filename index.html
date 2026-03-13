@@ -807,7 +807,7 @@
 
         // ── Character counter ──
         policyInput.addEventListener('input', () => {
-            charCount.textContent = `${policyInput.value.length} chars`;
+            charCount.textContent = `${policyInput.value.length.toLocaleString()} chars`;
         });
 
         // ── Sample Policy Loader ──
@@ -830,7 +830,7 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
 
         function loadSample() {
             policyInput.value = SAMPLE_POLICY;
-            charCount.textContent = `${SAMPLE_POLICY.length} chars`;
+            charCount.textContent = `${SAMPLE_POLICY.length.toLocaleString()} chars`;
         }
 
         // ── Helpers ──
@@ -1045,7 +1045,7 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
 
                         // Parse SSE events from buffer
                         const lines = buffer.split('\n');
-                        buffer = '';
+                        buffer = lines.pop();
 
                         let eventType = null;
                         let eventData = null;
@@ -1064,7 +1064,7 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
                                 eventData = null;
                             } else if (line !== '') {
                                 // Incomplete event, push remaining back to buffer
-                                buffer = lines.slice(i).join('\n');
+                                buffer = lines.slice(i).join('\n') + (buffer ? '\n' + buffer : '');
                                 break;
                             }
                         }

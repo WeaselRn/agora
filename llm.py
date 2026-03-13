@@ -32,10 +32,9 @@ def extract_json(text: str) -> dict:
         text = fence_match.group(1).strip()
 
     # Try to find a JSON object in the text
-    brace_start = text.find("{")
-    brace_end = text.rfind("}")
-    if brace_start != -1 and brace_end != -1:
-        text = text[brace_start : brace_end + 1]  # type: ignore
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if match:
+        text = match.group(0)
 
     return json.loads(text)
 
@@ -97,7 +96,7 @@ class GeminiClient(LLMClient):
 
         self._model = os.environ.get("LLM_MODEL", "gemini-3.1-flash-lite-preview")
         self._client = genai.Client(api_key=api_key)
-        self._semaphore = asyncio.Semaphore(3)
+        self._semaphore = asyncio.Semaphore(1)
         self._last_call_time: float = 0.0
 
     async def generate(self, prompt: str) -> str:

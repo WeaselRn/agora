@@ -48,6 +48,7 @@ class DebateEntry:
     concession: str
     position_shift: str  # unchanged | softened | hardened | revised
     updated_score: Optional[int] = None
+    updated_recommendation: Optional[str] = None
 
 
 @dataclass
@@ -232,7 +233,8 @@ Valid colleague names you may address (use EXACTLY as written): {json.dumps(peer
   "pushback": "Your strongest counter-argument or critique of their positions — be specific and cite evidence",
   "concession": "What, if anything, you now concede based on others' arguments (say 'None' if nothing changed your mind)",
   "position_shift": "<exactly one of: unchanged | softened | hardened | revised>",
-  "updated_score": <your new score 1-10 if your position shifted, or your same score if unchanged>
+  "updated_score": <your new score 1-10 if your position shifted, or your same score if unchanged>,
+  "updated_recommendation": "<exactly one of: approve | approve_with_changes | reject>"
 }}
 
 Intellectual honesty matters more than consistency. If you were wrong, admit it. If you're right, defend it harder."""

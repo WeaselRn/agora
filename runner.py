@@ -90,6 +90,7 @@ async def run_single_debate(
             concession=data["concession"],
             position_shift=data["position_shift"],
             updated_score=int(data["updated_score"]) if data.get("updated_score") is not None else None,
+            updated_recommendation=data.get("updated_recommendation"),
         )
     except Exception as exc:
         logger.error("Agent %s failed during debate round %d: %s", persona.name, round_num, exc)
@@ -187,12 +188,14 @@ async def evaluate_policy(
         round_dicts = [asdict(e) for e in round_entries]
         all_debate_dicts.append(round_dicts)
 
-        # Update eval scores for agents whose positions shifted
+        # Update eval scores and recommendations for agents whose positions shifted
         for entry in round_entries:
-            if entry.updated_score is not None:
-                for ed in eval_dicts:
-                    if ed["agent_name"] == entry.agent_name:
+            for ed in eval_dicts:
+                if ed["agent_name"] == entry.agent_name:
+                    if entry.updated_score is not None:
                         ed["score"] = entry.updated_score
+                    if entry.updated_recommendation is not None:
+                        ed["recommendation"] = entry.updated_recommendation
 
     # ── Phase 3: Synthesis ──
     if callback:
