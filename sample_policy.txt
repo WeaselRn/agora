@@ -1,0 +1,16 @@
+The Government of [State/Country] hereby proposes the "Smart Urban Mobility and Air Quality Improvement Act" (SUMAQ Act), to be implemented across all metropolitan areas with populations exceeding 500,000.
+
+SECTION 1 — CONGESTION PRICING ZONES
+All cities covered under this Act shall establish GPS-tracked congestion pricing zones in their central business districts. Private vehicles entering these zones between 7:00 AM and 8:00 PM on weekdays will be charged a dynamic toll ranging from $5 to $25 based on real-time traffic density. Revenue collected shall fund public transit expansion. Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.
+
+SECTION 2 — MANDATORY ELECTRIC VEHICLE TRANSITION
+By 2028, all ride-sharing and taxi services operating within covered cities must transition 100% of their fleets to electric vehicles. Non-compliant operators will face daily fines of $500 per non-electric vehicle deployed. The government will offer a one-time $3,000 subsidy per vehicle for fleet conversion, funded through the congestion pricing revenue.
+
+SECTION 3 — PUBLIC TRANSIT FREE-FARE PILOT
+For a 24-month pilot period, all public buses and metro services in covered cities will be fare-free during off-peak hours (10:00 AM to 4:00 PM and after 8:00 PM). The estimated annual cost of $2.1 billion will be jointly funded by congestion pricing revenue (60%) and federal matching grants (40%). Cities that fail to secure federal matching funding may reduce service frequency to remain budget-neutral.
+
+SECTION 4 — AIR QUALITY MONITORING NETWORK
+Each covered city shall deploy a minimum of one air quality sensor per 2,000 residents, with real-time data published to a public dashboard. Neighborhoods exceeding WHO PM2.5 guidelines for more than 30 consecutive days will be designated "Clean Air Priority Zones," triggering automatic restrictions on construction, industrial activity, and heavy vehicle traffic. Affected businesses may apply for hardship exemptions through their municipal government.
+
+SECTION 5 — IMPLEMENTATION AND OVERSIGHT
+A new Federal Urban Mobility Authority (FUMA) will be established to oversee implementation, with a proposed annual budget of $180 million. FUMA will have authority to override municipal transportation decisions that conflict with SUMAQ Act objectives. Local governments must submit quarterly compliance reports. Non-compliant municipalities risk forfeiture of all federal transportation funding for the following fiscal year.

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agora — AI Policy Evaluation</title>
+    <meta name="description" content="Simulate a panel of AI agents to evaluate government policies through structured debate and synthesis.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #1f1f35;
+            --bg-glass: rgba(26, 26, 46, 0.7);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(139, 92, 246, 0.3);
+            --text-primary: #f0f0f5;
+            --text-secondary: #9898b0;
+            --text-dim: #5a5a78;
+            --accent-purple: #8b5cf6;
+            --accent-purple-glow: rgba(139, 92, 246, 0.15);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Background Pattern ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Layout ── */
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* ── Header ── */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--accent-purple-glow);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .header-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-purple) 50%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ── Input Section ── */
+        .input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(20px);
+            transition: border-color 0.3s ease;
+        }
+
+        .input-section:focus-within {
+            border-color: var(--border-accent);
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .input-label span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .char-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+
+        textarea::placeholder {
+            color: var(--text-dim);
+        }
+
+        .btn-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--accent-purple), #6d28d9);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 24px rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 32px rgba(139, 92, 246, 0.35);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            padding: 14px 24px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-dim);
+            color: var(--text-primary);
+        }
+
+        /* ── Status Bar ── */
+        .status-bar {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 32px;
+        }
+
+        .status-bar.visible {
+            display: flex;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .status-progress {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-purple);
+            font-weight: 500;
+        }
+
+        /* ── Results Container ── */
+        #results {
+            display: none;
+        }
+
+        #results.visible {
+            display: block;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-purple-glow);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+        }
+
+        /* ── Agent Cards ── */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .agent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            animation: cardIn 0.4s ease-out;
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .agent-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(16px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .agent-role {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .agent-score {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid;
+        }
+
+        .score-high { color: var(--accent-green); border-color: var(--accent-green); background: rgba(16, 185, 129, 0.1); }
+        .score-mid { color: var(--accent-yellow); border-color: var(--accent-yellow); background: rgba(245, 158, 11, 0.1); }
+        .score-low { color: var(--accent-red); border-color: var(--accent-red); background: rgba(239, 68, 68, 0.1); }
+
+        .agent-rec {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .rec-approve { background: rgba(16, 185, 129, 0.12); color: var(--accent-green); }
+        .rec-changes { background: rgba(245, 158, 11, 0.12); color: var(--accent-yellow); }
+        .rec-reject { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); }
+
+        .agent-summary {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .agent-lists {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .list-section h4 {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .list-section ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .list-section li {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .list-section li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .strengths li::before { background: var(--accent-green); }
+        .concerns li::before { background: var(--accent-red); }
+
+        .agent-quote {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border-left: 2px solid var(--accent-purple);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 12px;
+            font-style: italic;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .agent-confidence {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ── Debate Timeline ── */
+        .debate-section {
+            margin-bottom: 48px;
+        }
+
+        .debate-round {
+            margin-bottom: 24px;
+        }
+
+        .round-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .debate-entry {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+            animation: cardIn 0.3s ease-out;
+        }
+
+        .debate-line {
+            width: 2px;
+            background: var(--border);
+            border-radius: 2px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .debate-content {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            transition: border-color 0.3s;
+        }
+
+        .debate-content:hover {
+            border-color: var(--border-accent);
+        }
+
+        .debate-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .debate-agent-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .debate-addressing {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .debate-shift {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .shift-unchanged { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+        .shift-softened { background: rgba(245, 158, 11, 0.1); color: var(--accent-yellow); }
+        .shift-hardened { background: rgba(239, 68, 68, 0.1); color: var(--accent-red); }
+        .shift-revised { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+
+        .debate-pushback {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .debate-concession {
+            font-size: 12px;
+            color: var(--accent-cyan);
+            font-style: italic;
+            padding: 8px 12px;
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: var(--radius-sm);
+        }
+
+        .debate-score-update {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 8px;
+        }
+
+        /* ── Synthesis ── */
+        .synthesis-section {
+            margin-bottom: 48px;
+        }
+
+        .synthesis-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            animation: cardIn 0.5s ease-out;
+        }
+
+        .synthesis-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .consensus-badge {
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .consensus-strong { background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .consensus-moderate { background: rgba(245, 158, 11, 0.12); color: var(--accent-yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .consensus-contested { background: rgba(249, 115, 22, 0.12); color: var(--accent-orange); border: 1px solid rgba(249, 115, 22, 0.3); }
+        .consensus-deadlocked { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .overall-score {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .overall-score .number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .overall-score .of-ten {
+            font-size: 16px;
+            color: var(--text-dim);
+        }
+
+        .synthesis-narrative {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        .synthesis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .synthesis-block h3 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+
+        .synthesis-block ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .synthesis-block li {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .risk-tag {
+            display: inline-flex;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 6px;
+        }
+
+        .risk-high { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .risk-medium { background: rgba(245, 158, 11, 0.15); color: var(--accent-yellow); }
+        .risk-low { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+
+        /* ── Error State ── */
+        .error-banner {
+            display: none;
+            padding: 16px 24px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-md);
+            color: var(--accent-red);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .error-banner.visible {
+            display: block;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .app { padding: 24px 16px; }
+            h1 { font-size: 28px; }
+            .agent-grid { grid-template-columns: 1fr; }
+            .synthesis-grid { grid-template-columns: 1fr; }
+            .input-section { padding: 20px; }
+            .synthesis-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-badge">AI Policy Panel</div>
+            <h1>Agora</h1>
+            <p>Simulate a panel of AI experts who evaluate, debate, and synthesize government policy — delivering structured, honest analysis.</p>
+        </header>
+
+        <!-- Input Section -->
+        <section class="input-section" id="inputSection">
+            <div class="input-label">
+                <span>Policy Text</span>
+                <span class="char-count" id="charCount">0 chars</span>
+            </div>
+            <textarea
+                id="policyInput"
+                placeholder="Paste your policy text here. The panel will evaluate it from five distinct perspectives: economic, legal, ethical, implementation feasibility, and citizen impact..."
+            ></textarea>
+            <div class="btn-row">
+                <button class="btn-primary" id="runBtn" onclick="runEvaluation()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Run Evaluation
+                </button>
+                <button class="btn-secondary" id="sampleBtn" onclick="loadSample()">Load Sample Policy</button>
+            </div>
+        </section>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <div class="spinner"></div>
+            <span class="status-text" id="statusText">Initializing agents...</span>
+            <span class="status-progress" id="statusProgress"></span>
+        </div>
+
+        <!-- Error Banner -->
+        <div class="error-banner" id="errorBanner"></div>
+
+        <!-- Results -->
+        <div id="results">
+            <!-- Agent Evaluations -->
+            <div id="evalSection" style="display:none;">
+                <div class="section-title">
+                    <div class="icon">📊</div>
+                    Agent Evaluations
+                </div>
+                <div class="agent-grid" id="agentGrid"></div>
+            </div>
+
+            <!-- Debate Timeline -->
+            <div class="debate-section" id="debateSection" style="display:none;">
+                <div class="section-title">
+                    <div class="icon">⚔️</div>
+                    Debate Rounds
+                </div>
+                <div id="debateContainer"></div>
+            </div>
+
+            <!-- Synthesis -->
+            <div class="synthesis-section" id="synthesisSection" style="display:none;">
+                <div class="section-title">
+                    <div class="icon">🔬</div>
+                    Panel Synthesis
+                </div>
+                <div id="synthesisContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── State ──
+        const API_URL = 'http://localhost:8000';
+        let evalCount = 0;
+        let currentRound = 0;
+        const debateRounds = {};
+
+        // ── DOM Refs ──
+        const policyInput = document.getElementById('policyInput');
+        const charCount = document.getElementById('charCount');
+        const runBtn = document.getElementById('runBtn');
+        const statusBar = document.getElementById('statusBar');
+        const statusText = document.getElementById('statusText');
+        const statusProgress = document.getElementById('statusProgress');
+        const errorBanner = document.getElementById('errorBanner');
+        const results = document.getElementById('results');
+        const evalSection = document.getElementById('evalSection');
+        const agentGrid = document.getElementById('agentGrid');
+        const debateSection = document.getElementById('debateSection');
+        const debateContainer = document.getElementById('debateContainer');
+        const synthesisSection = document.getElementById('synthesisSection');
+        const synthesisContainer = document.getElementById('synthesisContainer');
+
+        // ── Character counter ──
+        policyInput.addEventListener('input', () => {
+            charCount.textContent = `${policyInput.value.length} chars`;
+        });
+
+        // ── Sample Policy Loader ──
+        const SAMPLE_POLICY = `The Government hereby proposes the "Smart Urban Mobility and Air Quality Improvement Act" (SUMAQ Act), to be implemented across all metropolitan areas with populations exceeding 500,000.
+
+SECTION 1 — CONGESTION PRICING ZONES
+All cities covered under this Act shall establish GPS-tracked congestion pricing zones in their central business districts. Private vehicles entering these zones between 7:00 AM and 8:00 PM on weekdays will be charged a dynamic toll ranging from $5 to $25 based on real-time traffic density. Revenue collected shall fund public transit expansion. Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.
+
+SECTION 2 — MANDATORY ELECTRIC VEHICLE TRANSITION
+By 2028, all ride-sharing and taxi services operating within covered cities must transition 100% of their fleets to electric vehicles. Non-compliant operators will face daily fines of $500 per non-electric vehicle deployed. The government will offer a one-time $3,000 subsidy per vehicle for fleet conversion, funded through the congestion pricing revenue.
+
+SECTION 3 — PUBLIC TRANSIT FREE-FARE PILOT
+For a 24-month pilot period, all public buses and metro services in covered cities will be fare-free during off-peak hours (10:00 AM to 4:00 PM and after 8:00 PM). The estimated annual cost of $2.1 billion will be jointly funded by congestion pricing revenue (60%) and federal matching grants (40%). Cities that fail to secure federal matching funding may reduce service frequency to remain budget-neutral.
+
+SECTION 4 — AIR QUALITY MONITORING NETWORK
+Each covered city shall deploy a minimum of one air quality sensor per 2,000 residents, with real-time data published to a public dashboard. Neighborhoods exceeding WHO PM2.5 guidelines for more than 30 consecutive days will be designated "Clean Air Priority Zones," triggering automatic restrictions on construction, industrial activity, and heavy vehicle traffic.
+
+SECTION 5 — IMPLEMENTATION AND OVERSIGHT
+A new Federal Urban Mobility Authority (FUMA) will be established to oversee implementation, with a proposed annual budget of $180 million. FUMA will have authority to override municipal transportation decisions that conflict with SUMAQ Act objectives. Local governments must submit quarterly compliance reports.`;
+
+        function loadSample() {
+            policyInput.value = SAMPLE_POLICY;
+            charCount.textContent = `${SAMPLE_POLICY.length} chars`;
+        }
+
+        // ── Helpers ──
+        function scoreClass(score) {
+            if (score >= 7) return 'score-high';
+            if (score >= 4) return 'score-mid';
+            return 'score-low';
+        }
+
+        function recClass(rec) {
+            if (rec === 'approve') return 'rec-approve';
+            if (rec === 'approve_with_changes') return 'rec-changes';
+            return 'rec-reject';
+        }
+
+        function recLabel(rec) {
+            return rec.replace(/_/g, ' ').toUpperCase();
+        }
+
+        function shiftClass(shift) {
+            return `shift-${shift}`;
+        }
+
+        function consensusClass(level) {
+            return `consensus-${level}`;
+        }
+
+        function scoreColor(score) {
+            if (score >= 7) return 'var(--accent-green)';
+            if (score >= 4) return 'var(--accent-yellow)';
+            return 'var(--accent-red)';
+        }
+
+        // ── Render Functions ──
+        function renderAgentCard(data) {
+            const card = document.createElement('div');
+            card.className = 'agent-card';
+            card.innerHTML = `
+                <div class="agent-header">
+                    <div class="agent-info">
+                        <span class="agent-name">${data.agent_name}</span>
+                        <span class="agent-role">${data.agent_role}</span>
+                    </div>
+                    <div class="agent-score ${scoreClass(data.score)}">${data.score}</div>
+                </div>
+                <div class="agent-rec ${recClass(data.recommendation)}">${recLabel(data.recommendation)}</div>
+                <div class="agent-summary">${data.summary}</div>
+                <div class="agent-lists">
+                    <div class="list-section strengths">
+                        <h4>Strengths</h4>
+                        <ul>${data.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+                    </div>
+                    <div class="list-section concerns">
+                        <h4>Concerns</h4>
+                        <ul>${data.concerns.map(c => `<li>${c}</li>`).join('')}</ul>
+                    </div>
+                </div>
+                <div class="agent-quote">"${data.key_evidence_quote}"</div>
+                <div class="agent-confidence">Confidence: ${data.confidence}/10</div>
+            `;
+            agentGrid.appendChild(card);
+        }
+
+        function renderDebateEntry(data) {
+            const roundNum = data.round_num;
+            if (!debateRounds[roundNum]) {
+                debateRounds[roundNum] = document.createElement('div');
+                debateRounds[roundNum].className = 'debate-round';
+                debateRounds[roundNum].innerHTML = `<div class="round-header">⚡ Round ${roundNum}</div>`;
+                debateContainer.appendChild(debateRounds[roundNum]);
+            }
+
+            const entry = document.createElement('div');
+            entry.className = 'debate-entry';
+
+            let concessionHtml = '';
+            if (data.concession && data.concession.toLowerCase() !== 'none') {
+                concessionHtml = `<div class="debate-concession">💡 Concession: ${data.concession}</div>`;
+            }
+
+            let scoreHtml = '';
+            if (data.updated_score !== null && data.updated_score !== undefined) {
+                scoreHtml = `<div class="debate-score-update">Updated score: <span style="color:${scoreColor(data.updated_score)}">${data.updated_score}/10</span></div>`;
+            }
+
+            entry.innerHTML = `
+                <div class="debate-line"></div>
+                <div class="debate-content">
+                    <div class="debate-meta">
+                        <span class="debate-agent-name">${data.agent_name}</span>
+                        <span class="debate-shift ${shiftClass(data.position_shift)}">${data.position_shift}</span>
+                        <span class="debate-addressing">→ ${data.addressing.join(', ')}</span>
+                    </div>
+                    <div class="debate-pushback">${data.pushback}</div>
+                    ${concessionHtml}
+                    ${scoreHtml}
+                </div>
+            `;
+            debateRounds[roundNum].appendChild(entry);
+        }
+
+        function renderSynthesis(data) {
+            const card = document.createElement('div');
+            card.className = 'synthesis-card';
+
+            const riskHtml = data.risk_areas.map(r =>
+                `<li><span class="risk-tag risk-${r.severity}">${r.severity}</span>${r.area}</li>`
+            ).join('');
+
+            const amendHtml = data.top_amendments.map((a, i) =>
+                `<li><strong>${i + 1}.</strong> ${a}</li>`
+            ).join('');
+
+            const dissentHtml = data.minority_dissents.map(d =>
+                `<li>⚠️ ${d}</li>`
+            ).join('');
+
+            card.innerHTML = `
+                <div class="synthesis-header">
+                    <div class="consensus-badge ${consensusClass(data.consensus_level)}">
+                        ${data.consensus_level} Consensus
+                    </div>
+                    <div class="overall-score">
+                        <span class="number" style="color:${scoreColor(data.overall_score)}">${data.overall_score}</span>
+                        <span class="of-ten">/ 10</span>
+                    </div>
+                </div>
+                <div class="synthesis-narrative">${data.narrative_summary}</div>
+                <div class="synthesis-grid">
+                    <div class="synthesis-block">
+                        <h3>🔴 Risk Areas</h3>
+                        <ul>${riskHtml}</ul>
+                    </div>
+                    <div class="synthesis-block">
+                        <h3>📝 Recommended Amendments</h3>
+                        <ul>${amendHtml}</ul>
+                    </div>
+                    ${dissentHtml ? `
+                    <div class="synthesis-block">
+                        <h3>⚠️ Minority Dissents</h3>
+                        <ul>${dissentHtml}</ul>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            synthesisContainer.appendChild(card);
+        }
+
+        // ── Status Updates ──
+        function showStatus(text, progress) {
+            statusBar.classList.add('visible');
+            statusText.textContent = text;
+            statusProgress.textContent = progress || '';
+        }
+
+        function hideStatus() {
+            statusBar.classList.remove('visible');
+        }
+
+        function showError(msg) {
+            errorBanner.textContent = msg;
+            errorBanner.classList.add('visible');
+        }
+
+        // ── Main Evaluation Runner ──
+        function runEvaluation() {
+            const policyText = policyInput.value.trim();
+            if (!policyText) {
+                showError('Please paste a policy text to evaluate.');
+                return;
+            }
+
+            // Reset UI
+            errorBanner.classList.remove('visible');
+            agentGrid.innerHTML = '';
+            debateContainer.innerHTML = '';
+            synthesisContainer.innerHTML = '';
+            evalSection.style.display = 'none';
+            debateSection.style.display = 'none';
+            synthesisSection.style.display = 'none';
+            results.classList.add('visible');
+            evalCount = 0;
+            currentRound = 0;
+            Object.keys(debateRounds).forEach(k => delete debateRounds[k]);
+
+            runBtn.disabled = true;
+            showStatus('Initializing AI panel...', '0/5 agents');
+
+            // Connect to SSE endpoint
+            fetch(`${API_URL}/api/evaluate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ policy_text: policyText }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                function processStream() {
+                    reader.read().then(({ done, value }) => {
+                        if (done) {
+                            hideStatus();
+                            runBtn.disabled = false;
+                            return;
+                        }
+
+                        buffer += decoder.decode(value, { stream: true });
+
+                        // Parse SSE events from buffer
+                        const lines = buffer.split('\n');
+                        buffer = '';
+
+                        let eventType = null;
+                        let eventData = null;
+
+                        for (let i = 0; i < lines.length; i++) {
+                            const line = lines[i];
+
+                            if (line.startsWith('event:')) {
+                                eventType = line.substring(6).trim();
+                            } else if (line.startsWith('data:')) {
+                                eventData = line.substring(5).trim();
+                            } else if (line === '' && eventType && eventData) {
+                                // Complete event
+                                handleEvent(eventType, eventData);
+                                eventType = null;
+                                eventData = null;
+                            } else if (line !== '') {
+                                // Incomplete event, push remaining back to buffer
+                                buffer = lines.slice(i).join('\n');
+                                break;
+                            }
+                        }
+
+                        processStream();
+                    }).catch(err => {
+                        showError(`Stream error: ${err.message}`);
+                        hideStatus();
+                        runBtn.disabled = false;
+                    });
+                }
+
+                processStream();
+            }).catch(err => {
+                showError(`Connection failed: ${err.message}. Make sure the server is running (uvicorn runner:app --port 8000).`);
+                hideStatus();
+                runBtn.disabled = false;
+            });
+        }
+
+        function handleEvent(type, dataStr) {
+            let data;
+            try {
+                data = JSON.parse(dataStr);
+            } catch {
+                return;
+            }
+
+            switch (type) {
+                case 'evaluation':
+                    evalCount++;
+                    evalSection.style.display = 'block';
+                    renderAgentCard(data);
+                    showStatus(`Evaluating policy...`, `${evalCount}/5 agents`);
+                    break;
+
+                case 'debate_round_start':
+                    currentRound = data.round;
+                    debateSection.style.display = 'block';
+                    showStatus(`Debate round ${data.round} in progress...`, '');
+                    break;
+
+                case 'debate':
+                    debateSection.style.display = 'block';
+                    renderDebateEntry(data);
+                    break;
+
+                case 'synthesis_start':
+                    showStatus('Generating synthesis report...', '');
+                    break;
+
+                case 'synthesis':
+                    synthesisSection.style.display = 'block';
+                    renderSynthesis(data);
+                    showStatus('Complete!', '');
+                    break;
+
+                case 'complete':
+                    hideStatus();
+                    runBtn.disabled = false;
+                    break;
+
+                case 'error':
+                    showError(data.message || 'An error occurred during evaluation.');
+                    hideStatus();
+                    runBtn.disabled = false;
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
