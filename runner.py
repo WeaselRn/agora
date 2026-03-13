@@ -8,7 +8,11 @@ Orchestrates the full evaluation pipeline:
   4. Exposes a Server-Sent Events endpoint for the frontend
 """
 
+
 from __future__ import annotations
+
+from dotenv import load_dotenv # type: ignore
+load_dotenv()
 
 import asyncio
 import json

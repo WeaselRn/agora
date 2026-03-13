@@ -9,11 +9,15 @@ Prints a formatted terminal summary and saves a JSON report to report.json.
 
 from __future__ import annotations
 
+from dotenv import load_dotenv # type: ignore
+load_dotenv()
+
 import argparse
 import asyncio
 import json
 import sys
 from pathlib import Path
+
 
 from agents import PolicyReport  # type: ignore
 from llm import create_llm_client  # type: ignore

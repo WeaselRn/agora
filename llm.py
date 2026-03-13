@@ -95,7 +95,7 @@ class GeminiClient(LLMClient):
                 "Get a free key at https://aistudio.google.com/apikey"
             )
 
-        self._model = os.environ.get("LLM_MODEL", "gemini-2.5-flash-lite")
+        self._model = os.environ.get("LLM_MODEL", "gemini-3.1-flash-lite-preview")
         self._client = genai.Client(api_key=api_key)
         self._semaphore = asyncio.Semaphore(3)
         self._last_call_time: float = 0.0

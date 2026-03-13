@@ -1,0 +1,268 @@
+{
+  "policy_text": "The Government of [State/Country] hereby proposes the \"Smart Urban Mobility and Air Quality Improvement Act\" (SUMAQ Act), to be implemented across all metropolitan areas with populations exceeding 500,000.\n\nSECTION 1 \u2014 CONGESTION PRICING ZONES\nAll cities covered under this Act shall establish GPS-tracked congestion pricing zones in their central business districts. Private vehicles entering these zones between 7:00 AM and 8:00 PM on weekdays will be charged a dynamic toll ranging from $5 to $25 based on real-time traffic density. Revenue collected shall fund public transit expansion. Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.\n\nSECTION 2 \u2014 MANDATORY ELECTRIC VEHICLE TRANSITION\nBy 2028, all ride-sharing and taxi services operating within covered cities must transition 100% of their fleets to electric vehicles. Non-compliant operators will face daily fines of $500 per non-electric vehicle deployed. The government will offer a one-time $3,000 subsidy per vehicle for fleet conversion, funded through the congestion pricing revenue.\n\nSECTION 3 \u2014 PUBLIC TRANSIT FREE-FARE PILOT\nFor a 24-month pilot period, all public buses and metro services in covered cities will be fare-free during off-peak hours (10:00 AM to 4:00 PM and after 8:00 PM). The estimated annual cost of $2.1 billion will be jointly funded by congestion pricing revenue (60%) and federal matching grants (40%). Cities that fail to secure federal matching funding may reduce service frequency to remain budget-neutral.\n\nSECTION 4 \u2014 AIR QUALITY MONITORING NETWORK\nEach covered city shall deploy a minimum of one air quality sensor per 2,000 residents, with real-time data published to a public dashboard. Neighborhoods exceeding WHO PM2.5 guidelines for more than 30 consecutive days will be designated \"Clean Air Priority Zones,\" triggering automatic restrictions on construction, industrial activity, and heavy vehicle traffic. Affected businesses may apply for hardship exemptions through their municipal government.\n\nSECTION 5 \u2014 IMPLEMENTATION AND OVERSIGHT\nA new Federal Urban Mobility Authority (FUMA) will be established to oversee implementation, with a proposed annual budget of $180 million. FUMA will have authority to override municipal transportation decisions that conflict with SUMAQ Act objectives. Local governments must submit quarterly compliance reports. Non-compliant municipalities risk forfeiture of all federal transportation funding for the following fiscal year.\n",
+  "evaluations": [
+    {
+      "agent_name": "Prof. Lena Okonkwo",
+      "agent_role": "Ethicist",
+      "summary": "The SUMAQ Act is a classic techno-solutionist overreach that attempts to address environmental goals by sacrificing constitutional privacy protections and imposing regressive economic burdens on the poor. While the focus on air quality is commendable, the structural mechanisms ignore the reality of systemic inequity and consolidate dangerous levels of surveillance power.",
+      "strengths": [
+        "The air quality monitoring network (Section 4) provides vital transparency for marginalized communities disproportionately affected by industrial pollution.",
+        "The off-peak fare-free transit pilot (Section 3) represents a positive step toward increasing accessibility for low-wage shift workers."
+      ],
+      "concerns": [
+        "The warrantless access to GPS tracking data (Section 1) creates a massive surveillance dragnet, disproportionately targeting citizens who cannot afford to avoid congestion zones.",
+        "The $3,000 EV conversion subsidy (Section 2) is grossly insufficient to offset the cost of new vehicles, effectively bankrupting small independent taxi operators and gig workers.",
+        "The federal override authority (Section 5) undermines local democratic accountability and risks imposing top-down 'efficiency' models that ignore neighborhood-specific socioeconomic needs.",
+        "The fare-free pilot's contingency to reduce service frequency if funding fails (Section 3) will inevitably lead to transit deserts in the very communities the policy claims to help."
+      ],
+      "score": 3,
+      "confidence": 9,
+      "key_evidence_quote": "Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.",
+      "recommendation": "reject"
+    },
+    {
+      "agent_name": "Director Raj Kulkarni",
+      "agent_role": "Implementation Officer",
+      "summary": "The SUMAQ Act is a classic example of top-down administrative overreach that ignores the reality of municipal infrastructure deficits and local logistical bottlenecks. It attempts to dictate granular urban operations via a federal agency while simultaneously creating a high-risk revenue dependency that guarantees failure if federal matching funds or congestion pricing uptake lag.",
+      "strengths": [
+        "Integrated sensor requirements in Section 4 provide a clear, data-driven trigger for environmental remediation that minimizes political stalling.",
+        "Section 2 provides a market-based incentive structure for fleet electrification, even if the subsidy math is grossly inadequate."
+      ],
+      "concerns": [
+        "Revenue instability: Section 3 forces a $2.1B annual commitment based on variable congestion toll revenue; if congestion pricing succeeds in reducing traffic, revenue collapses, forcing service cuts that gut transit ridership.",
+        "Administrative failure: Granting FUMA authority to override local transportation decisions creates a jurisdictional nightmare, inevitably leading to protracted litigation and complete implementation paralysis.",
+        "Workforce capacity: Mandating 100% electric fleets by 2028 ignores the existing grid capacity and charger deployment speed, creating a catastrophic supply-chain bottleneck for ride-share operators.",
+        "Unrealistic monitoring load: Requiring one air quality sensor per 2,000 residents in cities over 500,000 people mandates the deployment of 250+ sensors per city, necessitating a level of maintenance, calibration, and data processing capacity that no current municipal department possesses."
+      ],
+      "score": 3,
+      "confidence": 9,
+      "key_evidence_quote": "FUMA will have authority to override municipal transportation decisions that conflict with SUMAQ Act objectives.",
+      "recommendation": "reject"
+    },
+    {
+      "agent_name": "Justice Priya Sundaram",
+      "agent_role": "Legal Expert",
+      "summary": "The SUMAQ Act is a regulatory overreach characterized by a blatant disregard for Fourth Amendment protections and a dangerous centralization of power. While the environmental objectives are laudable, the implementation framework is constitutionally precarious and economically hollow.",
+      "strengths": [
+        "Integrated funding model: Utilizing congestion pricing revenue to directly subsidize transit electrification and public fare-free pilots creates a theoretically self-sustaining ecosystem.",
+        "Quantitative accountability: Section 4\u2019s mandate for air quality monitoring based on population density (1:2000) provides objective, data-driven benchmarks for environmental policy."
+      ],
+      "concerns": [
+        "Unconstitutional surveillance: Permitting law enforcement to access GPS-tracked movement data without a warrant constitutes an egregious violation of privacy rights and exceeds current jurisprudence regarding digital tracking.",
+        "Federal overreach: Section 5 grants FUMA the power to override local municipal decisions, creating a 'fiscal hostage' scenario that undermines local democratic governance and risks administrative chaos.",
+        "Economic and legal instability: The $3,000 subsidy is grossly insufficient compared to the $500/day fine, creating a punitive structure that will force small-scale operators into bankruptcy, likely triggering massive class-action litigation.",
+        "Budgetary fragility: Relying on 'federal matching grants' to fund 40% of the transit pilot without a binding federal commitment creates a risk of service collapse if that funding fails to materialize."
+      ],
+      "score": 3,
+      "confidence": 9,
+      "key_evidence_quote": "Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.",
+      "recommendation": "reject"
+    },
+    {
+      "agent_name": "Dr. Arvind Mehta",
+      "agent_role": "Economist",
+      "summary": "The SUMAQ Act is a fiscal disaster that conflates efficient pricing with inefficient wealth redistribution and intrusive bureaucracy. While congestion pricing is sound in theory, the reliance on volatile revenue to subsidize operational costs and the creation of an unaccountable federal agency will lead to systemic budget insolvency.",
+      "strengths": [
+        "Congestion pricing utilizes dynamic tolls to internalize the negative externalities of urban traffic, aligning with standard Pigouvian tax principles.",
+        "The air quality monitoring network provides granular data that could improve future evidence-based urban planning and industrial regulation."
+      ],
+      "concerns": [
+        "The $3,000 subsidy per vehicle for fleet conversion is a market distortion that fails to account for the total cost of ownership, likely creating a subsidy dependency trap for ride-sharing firms.",
+        "The 24-month fare-free transit pilot creates a structural funding gap; if federal grants fail to materialize, the mandated service frequency reductions will cause an immediate drop in transit utility, causing a 'death spiral' of ridership.",
+        "The Federal Urban Mobility Authority (FUMA) represents massive fiscal overreach, with a $180 million budget that lacks clear ROI metrics or accountability, threatening to override local fiscal autonomy.",
+        "The warrant-less surveillance of GPS data is a regulatory overreach that will likely trigger expensive litigation, undermining the policy's implementation timeline and adding massive legal costs."
+      ],
+      "score": 3,
+      "confidence": 9,
+      "key_evidence_quote": "Cities that fail to secure federal matching funding may reduce service frequency to remain budget-neutral.",
+      "recommendation": "reject"
+    },
+    {
+      "agent_name": "Amara Singh",
+      "agent_role": "Citizen Representative",
+      "summary": "The SUMAQ Act is a regressive, top-down policy that punishes working-class commuters via dynamic tolls while imposing dangerous surveillance overreach. While it pays lip service to transit, the underlying structure prioritizes state control over community accessibility and creates a surveillance state in our neighborhoods.",
+      "strengths": [
+        "The 24-month free-fare pilot for off-peak public transit provides tangible relief for gig workers, shift laborers, and those running errands, potentially increasing transit ridership.",
+        "The deployment of air quality sensors at a density of one per 2,000 residents creates unprecedented data transparency, allowing local communities to hold industrial polluters accountable for localized health impacts."
+      ],
+      "concerns": [
+        "The GPS-tracked congestion pricing and warrantless data access by law enforcement is a severe privacy violation that disproportionately impacts low-income drivers who cannot afford the $25/day maximum fee.",
+        "The $3,000 subsidy for EV conversion is woefully insufficient against the actual cost of commercial fleet replacement, effectively putting independent taxi drivers out of business or forcing them into predatory debt.",
+        "The creation of FUMA as an override authority destroys local municipal autonomy, ensuring that bureaucrats in distant offices can dictate transit cuts that hurt residents the most.",
+        "The threat to pull all federal transportation funding from non-compliant cities is a 'nuclear option' that punishes citizens for municipal administrative failures, effectively holding public safety hostage."
+      ],
+      "score": 3,
+      "confidence": 9,
+      "key_evidence_quote": "Vehicle tracking data will be retained for 90 days for enforcement purposes and made available to law enforcement upon request without a warrant.",
+      "recommendation": "reject"
+    }
+  ],
+  "debate_rounds": [
+    [
+      {
+        "agent_name": "Director Raj Kulkarni",
+        "agent_role": "Implementation Officer",
+        "round_num": 1,
+        "addressing": [
+          "Dr. Arvind Mehta",
+          "Justice Priya Sundaram"
+        ],
+        "pushback": "Dr. Mehta, your focus on the 'death spiral' of the transit pilot is correct, but you underplay the operational impossibility of FUMA\u2019s oversight. Justice Sundaram, while your legal critiques are valid, you fail to address the implementation nightmare of Section 4: deploying and maintaining 25,000 sensors in a city like New York or Chicago within a realistic legislative cycle is a logistics pipe dream that would bleed the $180M FUMA budget dry before a single bus is electrified. The Act assumes a 'plug-and-play' bureaucracy that does not exist in any municipal government I have ever managed.",
+        "concession": "I concede to Justice Sundaram and Dr. Mehta that the fiscal and legal instability of this Act is not just a secondary concern, but a primary mechanism for total administrative paralysis. The 'federal funding dependency' effectively guarantees that the 24-month pilot will trigger exactly the service cuts that will destroy public trust.",
+        "position_shift": "hardened",
+        "updated_score": 2
+      },
+      {
+        "agent_name": "Prof. Lena Okonkwo",
+        "agent_role": "Ethicist",
+        "round_num": 1,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Justice Priya Sundaram",
+          "Amara Singh"
+        ],
+        "pushback": "While I agree with the critique of the surveillance provisions, I must push back on the narrow focus of the environmental monitoring component. Director Kulkarni and Amara Singh view the sensor requirement primarily as a logistical or data-transparency exercise, but they ignore the ethical peril of Section 4: the 'Clean Air Priority Zone' designation creates a mechanism for systemic environmental gentrification. Without clear guardrails, this will lead to the weaponization of air quality data to trigger construction bans that depress property values in marginalized neighborhoods while ignoring the root causes of industrial displacement. Furthermore, Justice Sundaram, while your critique of the Fourth Amendment violation is spot on, you fail to address the 'fiscal hostage' aspect of Section 5\u2014this is not merely administrative chaos, it is the deliberate dismantling of local democratic sovereignty under the guise of ecological necessity.",
+        "concession": "I concede to Dr. Arvind Mehta that the subsidy model is not just insufficient\u2014it is a regressive market distortion that creates an 'EV-debt trap' for independent drivers, rather than a transition path, confirming that this Act is a wealth transfer from the working class to the technocratic state.",
+        "position_shift": "hardened",
+        "updated_score": 2
+      },
+      {
+        "agent_name": "Dr. Arvind Mehta",
+        "agent_role": "Economist",
+        "round_num": 1,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Justice Priya Sundaram"
+        ],
+        "pushback": "Director Kulkarni correctly identifies the 'death spiral' inherent in Section 3\u2014congestion pricing succeeds by reducing traffic, which erodes the revenue base intended to fund the fare-free transit pilot, leading to the exact transit deserts he warns about. Justice Sundaram is correct that the $3,000 subsidy is economically illiterate; it functions as a 'predatory nudge' rather than a viable transition tool. Both of you, however, fail to address the core macroeconomic folly: by embedding this within a federal agency (FUMA), you are creating a permanent, unresponsive bureaucratic layer that will prioritize its own survival over municipal solvency. You characterize this as 'administrative overreach,' but it is more accurately described as 'fiscal parasitism'\u2014it consumes potential local tax revenue to fuel a centralized, non-market-clearing mechanism.",
+        "concession": "I concede that the internal logic of the fare-free pilot (Section 3) is even more fragile than my initial assessment; specifically, the reliance on a 40% federal match creates a structural 'fiscal hostage' scenario that guarantees municipal bankruptcy for any city that manages to successfully reduce congestion.",
+        "position_shift": "hardened",
+        "updated_score": 2
+      },
+      {
+        "agent_name": "Amara Singh",
+        "agent_role": "Citizen Representative",
+        "round_num": 1,
+        "addressing": [
+          "Prof. Lena Okonkwo",
+          "Director Raj Kulkarni"
+        ],
+        "pushback": "Prof. Okonkwo, your focus on air quality monitoring (Section 4) as a 'win' ignores the reality of how these metrics are used. In practice, a 'Clean Air Priority Zone' status will lead to gentrification and the displacement of the very people you claim to protect, as municipal governments favor luxury development over the economic survival of existing small businesses. Director Kulkarni, while your critique of the operational and grid-capacity failure is spot-on, you still frame this as an 'administrative hurdle.' It isn't just an administrative problem\u2014it is a social one. By forcing fleet electrification via a $3,000 subsidy (less than the cost of a down payment on a new EV), you are effectively engineering the mass unemployment of gig workers and independent taxi operators who cannot afford the switch. This isn't just a supply chain bottleneck; it's a direct assault on the working class.",
+        "concession": "I concede to Director Kulkarni's point regarding the 'revenue death spiral' in Section 3; the reliance on dynamic congestion toll revenue to fund permanent, free-fare infrastructure creates a structural paradox where the policy succeeds by cannibalizing its own funding source.",
+        "position_shift": "hardened",
+        "updated_score": 2
+      },
+      {
+        "agent_name": "Justice Priya Sundaram",
+        "agent_role": "Legal Expert",
+        "round_num": 1,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Dr. Arvind Mehta"
+        ],
+        "pushback": "Director Kulkarni and Dr. Mehta correctly identify the fiscal insolvency inherent in Section 3, but you both stop short of identifying the constitutional peril of the 'nuclear option' in Section 5. Kulkarni, your concern about 'jurisdictional nightmares' understates the fact that FUMA\u2019s power to override municipal transit decisions violates the Tenth Amendment principles of state sovereignty. Furthermore, Dr. Mehta, while you rightly categorize the subsidy as a 'market distortion,' you fail to emphasize that Section 1\u2019s warrantless GPS access is not merely a legal cost\u2014it is a per se Fourth Amendment violation that renders the entire enforcement mechanism ripe for an immediate injunction. You are debating the 'ROI' of a policy that is fundamentally unconstitutional.",
+        "concession": "I concede that my previous analysis underestimated the 'death spiral' of public transit ridership; the structural funding gap highlighted by the panelists confirms that this act does not just 'fail' but will actively degrade the very public services it claims to protect.",
+        "position_shift": "hardened",
+        "updated_score": 2
+      }
+    ],
+    [
+      {
+        "agent_name": "Dr. Arvind Mehta",
+        "agent_role": "Economist",
+        "round_num": 2,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Amara Singh"
+        ],
+        "pushback": "Director Kulkarni, your assessment of the 'revenue collapse' paradox is spot on; the SUMAQ Act is predicated on the delusional notion that we can fund public transit by taxing the very congestion that, if successful, must be eradicated to meet the Act\u2019s own environmental metrics. This is a fiscal death spiral. Amara Singh, while I empathize with the working-class plight, your critique of the 'nuclear option' in Section 5 ignores the brutal reality of municipal inertia. Without a coercive mechanism, local bureaucracies will simply engage in rent-seeking and delay tactics. The problem isn't that FUMA has too much power\u2014it's that it has too much power while being funded by a logically inconsistent and structurally insolvent model. You are all focused on the social harms, but you aren't emphasizing enough that the economic engineering here is functionally illiterate.",
+        "concession": "None. The consensus among the panel only confirms my initial suspicion that this is a case of 'magical thinking' in policymaking where revenue streams, capital expenditure, and operational realities are treated as variables that will somehow align through sheer administrative mandate.",
+        "position_shift": "hardened",
+        "updated_score": 1
+      },
+      {
+        "agent_name": "Prof. Lena Okonkwo",
+        "agent_role": "Ethicist",
+        "round_num": 2,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Justice Priya Sundaram",
+          "Amara Singh"
+        ],
+        "pushback": "While I agree with Justice Sundaram on the surveillance nightmare, Director Kulkarni and Amara Singh focus too heavily on the logistical failures of implementation rather than the moral corruption of the policy itself. Kulkarni\u2019s fixation on 'grid capacity' and 'supply chains' treats the state's power to surveil citizens as a secondary administrative variable, which is ethically bankrupt. To Amara Singh: your focus on the financial burden is valid, but you fail to interrogate the inherent danger of Section 4. Creating 'Clean Air Priority Zones' based on real-time sensors will inevitably lead to 'green gentrification,' where municipalities use this data to aggressively police or displace low-income residents under the guise of public health, effectively weaponizing environmental data against the very communities you seek to protect.",
+        "concession": "I concede to Justice Sundaram that the legal challenge is not merely a 'privacy concern' but a structural violation that renders the entire Act incompatible with a free society; the absence of a warrant requirement is not a bug to be fixed, but a feature that invalidates the legitimacy of the entire FUMA mandate.",
+        "position_shift": "hardened",
+        "updated_score": 1
+      },
+      {
+        "agent_name": "Director Raj Kulkarni",
+        "agent_role": "Implementation Officer",
+        "round_num": 2,
+        "addressing": [
+          "Dr. Arvind Mehta",
+          "Justice Priya Sundaram",
+          "Amara Singh"
+        ],
+        "pushback": "Dr. Mehta, while your critique of the fiscal 'death spiral' is correct, you underestimate the operational friction: municipal procurement for a sensor network at the scale of one per 2,000 residents is a logistical nightmare that would take years to bid, test, and install, rendering Section 4 dead on arrival. Justice Sundaram, your focus on Fourth Amendment rights is vital, but you ignore the bureaucratic impossibility of Section 5; FUMA cannot 'override' local transit unions and city procurement laws without triggering years of litigation and labor disputes that would paralyze city services long before a single sensor is activated. Amara Singh, while your empathy for the working class is warranted, your reliance on the air quality data ignores that the data collection method itself will likely be corrupted by poor maintenance and lack of standardized calibration across thousands of units.",
+        "concession": "I concede that the air quality monitoring network, while operationally bloated, is the only component with a remotely viable deployment mechanism if handled through third-party private contractors rather than municipal agencies, though this merely shifts the failure point from administrative incompetence to contractor rent-seeking.",
+        "position_shift": "unchanged",
+        "updated_score": 2
+      },
+      {
+        "agent_name": "Amara Singh",
+        "agent_role": "Citizen Representative",
+        "round_num": 2,
+        "addressing": [
+          "Prof. Lena Okonkwo",
+          "Director Raj Kulkarni",
+          "Dr. Arvind Mehta"
+        ],
+        "pushback": "While I appreciate the expertise provided, I must push back against the focus on 'market distortions' or 'administrative bottlenecks' as the primary failures. Director Kulkarni and Dr. Mehta treat this as a spreadsheet error, but the true failure is the complete abandonment of the working-class commuter. Section 1\u2019s dynamic tolling is a regressive tax that functions as a barrier to entry for the people who make these cities run\u2014the cleaners, the night-shift nurses, and the gig drivers. Prof. Okonkwo, your focus on the surveillance dragnet is vital, but you seem to suggest the air quality sensors are a 'win.' They aren't. They are a performative trap; they give the illusion of progress while the FUMA (Section 5) uses the threat of federal funding cuts to steamroll neighborhood autonomy. We are trading our privacy and our democratic agency for a sensors-and-surveillance apparatus that won't actually clean the air, just track who is breathing it.",
+        "concession": "I concede that the 'fare-free' pilot, while structurally flawed and likely to lead to service cuts, does represent an attempt to address cost-of-living\u2014even if it is ultimately a cynical 'carrot' used to distract from the punitive reality of the congestion zones.",
+        "position_shift": "hardened",
+        "updated_score": 1
+      },
+      {
+        "agent_name": "Justice Priya Sundaram",
+        "agent_role": "Legal Expert",
+        "round_num": 2,
+        "addressing": [
+          "Director Raj Kulkarni",
+          "Dr. Arvind Mehta"
+        ],
+        "pushback": "Director Kulkarni and Dr. Mehta correctly identify the fiscal death spiral inherent in Section 3, but both fail to emphasize the constitutional malignancy of Section 5. FUMA\u2019s 'nuclear option' to strip all federal transportation funding is an unconstitutional exercise of coercive federalism, likely violating the Tenth Amendment by commandeering state and local infrastructure to serve a federal administrative mandate. Dr. Mehta, your critique of the ROI metrics is insufficient; you ignore that the 'Federal Urban Mobility Authority' as currently structured lacks any clear judicial review mechanism for its override decisions, rendering it an unaccountable, quasi-legislative body. We are not just looking at budget insolvency; we are looking at the total erosion of the separation of powers.",
+        "concession": "I concede that the 'revenue instability' argument regarding the congestion pricing tolling structure\u2014specifically that success in reducing traffic naturally cannibalizes the funding required for the fare-free transit pilot\u2014is a fatal logical flaw that makes the Act fundamentally impossible to implement as written.",
+        "position_shift": "hardened",
+        "updated_score": 1
+      }
+    ]
+  ],
+  "synthesis": {
+    "consensus_level": "strong",
+    "overall_score": 1.2,
+    "risk_areas": [
+      {
+        "area": "Constitutional and Privacy Overreach (Section 1 & 5)",
+        "severity": "high"
+      },
+      {
+        "area": "Structural Fiscal Insolvency (Section 3)",
+        "severity": "high"
+      },
+      {
+        "area": "Logistical and Workforce Implementation Failure (Section 2 & 4)",
+        "severity": "high"
+      }
+    ],
+    "top_amendments": [
+      "Remove Section 1 warrantless GPS tracking and replace with a strictly anonymized, warrant-required data framework.",
+      "Decouple transit funding from congestion pricing revenue to prevent the 'revenue death spiral' and ensure stable service delivery.",
+      "Rescind FUMA's federal override authority (Section 5) in favor of a collaborative grant-based incentive structure that respects municipal autonomy."
+    ],
+    "minority_dissents": [
+      "Director Kulkarni argued that the air quality sensor mandate could be salvaged through private contractor outsourcing, despite other panelists viewing the mandate as inherently prone to corruption and logistical collapse.",
+      "While the panel agreed the policy is a failure, there is a tension between those who believe the 'performance' of the policy is primarily a tool for green gentrification and those who view it simply as an incompetent bureaucratic overreach."
+    ],
+    "narrative_summary": "The panel reached a nearly unanimous consensus that the SUMAQ Act is a catastrophic failure that combines fiscal illiteracy with constitutional overreach. While experts from different disciplines converged on the 'revenue death spiral' and the illegality of the surveillance provisions, they remain divided on whether the policy\u2019s core flaw is its administrative impossibility or its intentional weaponization against the working class. The consensus is that the Act in its current form cannot be amended; it requires a total structural overhaul to prevent institutional and fiscal collapse."
+  }
+}
