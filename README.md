@@ -250,7 +250,7 @@ Recommended Amendments
 • Tavily Search API
 • Server Sent Events (SSE)
 • Asyncio
-• Vanilla JavaScript
+• HTML & CSS
 
 ---
 
