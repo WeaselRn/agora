@@ -163,9 +163,27 @@ POLICY TEXT TO EVALUATE:
 {policy_text}
 ─────────────────────────────────
 
-TASK: Provide a rigorous, opinionated evaluation of this policy from your professional perspective. DO NOT be diplomatically vague — be specific about what works and what doesn't. Name concrete failure modes. If the policy is weak, say so plainly.
+REGIONAL CONTEXT:
+If a geographic region is mentioned in the policy text, assume the policy
+is implemented in that region. Consider local institutions, governance
+structures, infrastructure limitations, economic conditions, and cultural
+factors that may influence implementation and citizen response.
 
-You MUST respond with ONLY a valid JSON object (no markdown, no explanation outside the JSON) matching this exact schema:
+For example consider:
+- Local transportation or public infrastructure
+- Income distribution and employment patterns
+- Government capacity and administrative efficiency
+- Local legal frameworks and enforcement realities
+- Cultural or political resistance to the policy
+
+TASK:
+Provide a rigorous, opinionated evaluation of this policy from your
+professional perspective. DO NOT be diplomatically vague — be specific
+about what works and what doesn't. Name concrete failure modes. If the
+policy is weak, say so plainly.
+
+You MUST respond with ONLY a valid JSON object (no markdown, no explanation
+outside the JSON) matching this exact schema:
 
 {{
   "summary": "A 2-3 sentence executive summary of your assessment — be direct",
@@ -177,7 +195,8 @@ You MUST respond with ONLY a valid JSON object (no markdown, no explanation outs
   "recommendation": "<exactly one of: approve | approve_with_changes | reject>"
 }}
 
-Be sharp. Be specific. Name names, cite numbers, identify gaps. Generic praise or vague concerns are unacceptable."""
+Be sharp. Be specific. Name names, cite numbers, identify gaps.
+Generic praise or vague concerns are unacceptable."""
 
 
 def build_debate_prompt(
@@ -188,6 +207,7 @@ def build_debate_prompt(
 ) -> str:
     other_evals = [e for e in all_evaluations if e["agent_name"] != persona.name]
     peer_names = [e["agent_name"] for e in other_evals]
+
     evals_text = "\n\n".join(
         f"── {e['agent_name']} ({e['agent_role']}) — Score: {e['score']}/10, Rec: {e['recommendation']} ──\n"
         f"Summary: {e['summary']}\n"
@@ -222,11 +242,32 @@ ORIGINAL POLICY TEXT:
 {policy_text}
 ─────────────────────────────────
 
-TASK: Engage with your colleagues' arguments. This is NOT a polite roundtable — you are here to stress-test ideas. Push back where you disagree. If someone raised a point that genuinely changes your view, concede it explicitly and explain WHY. If their argument has holes, expose them. Do NOT hedge diplomatically.
+REGIONAL CONTEXT:
+Assume the policy applies in the geographic region described in the
+policy text. When responding to other panelists, consider how local
+infrastructure, governance capacity, economic conditions, and cultural
+factors affect the feasibility, legality, and fairness of the policy.
 
-You MUST respond with ONLY a valid JSON object:
+For example consider:
+- Local transportation or infrastructure capacity
+- Administrative ability of governments to enforce the policy
+- Economic inequality and employment patterns
+- Cultural or political resistance to regulation
+- Legal frameworks specific to the region
 
-Valid colleague names you may address (use EXACTLY as written): {json.dumps(peer_names)}
+TASK:
+Engage with your colleagues' arguments. This is NOT a polite roundtable —
+you are here to stress-test ideas.
+
+Push back where you disagree. If someone raised a point that genuinely
+changes your view, concede it explicitly and explain WHY.
+
+If their argument has holes, expose them. Do NOT hedge diplomatically.
+
+You MUST respond with ONLY a valid JSON object.
+
+Valid colleague names you may address (use EXACTLY as written):
+{json.dumps(peer_names)}
 
 {{
   "addressing": [<one or more names from the valid list above, exactly as written>],
@@ -237,7 +278,8 @@ Valid colleague names you may address (use EXACTLY as written): {json.dumps(peer
   "updated_recommendation": "<exactly one of: approve | approve_with_changes | reject>"
 }}
 
-Intellectual honesty matters more than consistency. If you were wrong, admit it. If you're right, defend it harder."""
+Intellectual honesty matters more than consistency. If you were wrong,
+admit it. If you're right, defend it harder."""
 
 
 def build_synthesis_prompt(
