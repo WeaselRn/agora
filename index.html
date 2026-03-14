@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agora — AI Policy Evaluation</title>
-    <meta name="description" content="Simulate a panel of AI agents to evaluate government policies through structured debate and synthesis.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="Simulate a panel of AI agents to evaluate government policies through structured debate and synthesis.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -102,8 +108,17 @@
         }
 
         @keyframes pulse-dot {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.3); }
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
         }
 
         h1 {
@@ -263,7 +278,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .status-text {
@@ -332,8 +349,15 @@
         }
 
         @keyframes cardIn {
-            from { opacity: 0; transform: translateY(16px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .agent-header {
@@ -376,9 +400,23 @@
             border: 2px solid;
         }
 
-        .score-high { color: var(--accent-green); border-color: var(--accent-green); background: rgba(16, 185, 129, 0.1); }
-        .score-mid { color: var(--accent-yellow); border-color: var(--accent-yellow); background: rgba(245, 158, 11, 0.1); }
-        .score-low { color: var(--accent-red); border-color: var(--accent-red); background: rgba(239, 68, 68, 0.1); }
+        .score-high {
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .score-mid {
+            color: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .score-low {
+            color: var(--accent-red);
+            border-color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+        }
 
         .agent-rec {
             display: inline-flex;
@@ -391,9 +429,20 @@
             margin-bottom: 12px;
         }
 
-        .rec-approve { background: rgba(16, 185, 129, 0.12); color: var(--accent-green); }
-        .rec-changes { background: rgba(245, 158, 11, 0.12); color: var(--accent-yellow); }
-        .rec-reject { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); }
+        .rec-approve {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent-green);
+        }
+
+        .rec-changes {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-yellow);
+        }
+
+        .rec-reject {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--accent-red);
+        }
 
         .agent-summary {
             font-size: 13px;
@@ -442,8 +491,13 @@
             border-radius: 50%;
         }
 
-        .strengths li::before { background: var(--accent-green); }
-        .concerns li::before { background: var(--accent-red); }
+        .strengths li::before {
+            background: var(--accent-green);
+        }
+
+        .concerns li::before {
+            background: var(--accent-red);
+        }
 
         .agent-quote {
             margin-top: 12px;
@@ -547,10 +601,25 @@
             text-transform: uppercase;
         }
 
-        .shift-unchanged { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
-        .shift-softened { background: rgba(245, 158, 11, 0.1); color: var(--accent-yellow); }
-        .shift-hardened { background: rgba(239, 68, 68, 0.1); color: var(--accent-red); }
-        .shift-revised { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+        .shift-unchanged {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+        }
+
+        .shift-softened {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-yellow);
+        }
+
+        .shift-hardened {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        .shift-revised {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+        }
 
         .debate-pushback {
             font-size: 13px;
@@ -606,10 +675,29 @@
             letter-spacing: 1px;
         }
 
-        .consensus-strong { background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); }
-        .consensus-moderate { background: rgba(245, 158, 11, 0.12); color: var(--accent-yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .consensus-contested { background: rgba(249, 115, 22, 0.12); color: var(--accent-orange); border: 1px solid rgba(249, 115, 22, 0.3); }
-        .consensus-deadlocked { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .consensus-strong {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .consensus-moderate {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .consensus-contested {
+            background: rgba(249, 115, 22, 0.12);
+            color: var(--accent-orange);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .consensus-deadlocked {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
 
         .overall-score {
             display: flex;
@@ -682,9 +770,20 @@
             margin-right: 6px;
         }
 
-        .risk-high { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
-        .risk-medium { background: rgba(245, 158, 11, 0.15); color: var(--accent-yellow); }
-        .risk-low { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .risk-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        .risk-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
 
         /* ── Error State ── */
         .error-banner {
@@ -704,22 +803,41 @@
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
-            .app { padding: 24px 16px; }
-            h1 { font-size: 28px; }
-            .agent-grid { grid-template-columns: 1fr; }
-            .synthesis-grid { grid-template-columns: 1fr; }
-            .input-section { padding: 20px; }
-            .synthesis-card { padding: 20px; }
+            .app {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .synthesis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-section {
+                padding: 20px;
+            }
+
+            .synthesis-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="app">
         <!-- Header -->
         <header class="header">
             <div class="header-badge">AI Policy Panel</div>
             <h1>Agora</h1>
-            <p>Simulate a panel of AI experts who evaluate, debate, and synthesize government policy — delivering structured, honest analysis.</p>
+            <p>Simulate a panel of AI experts who evaluate, debate, and synthesize government policy — delivering
+                structured, honest analysis.</p>
         </header>
 
         <!-- Input Section -->
@@ -728,13 +846,14 @@
                 <span>Policy Text</span>
                 <span class="char-count" id="charCount">0 chars</span>
             </div>
-            <textarea
-                id="policyInput"
-                placeholder="Paste your policy text here. The panel will evaluate it from five distinct perspectives: economic, legal, ethical, implementation feasibility, and citizen impact..."
-            ></textarea>
+            <textarea id="policyInput"
+                placeholder="Paste your policy text here. The panel will evaluate it from five distinct perspectives: economic, legal, ethical, implementation feasibility, and citizen impact..."></textarea>
             <div class="btn-row">
                 <button class="btn-primary" id="runBtn" onclick="runEvaluation()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
                     Run Evaluation
                 </button>
                 <button class="btn-secondary" id="sampleBtn" onclick="loadSample()">Load Sample Policy</button>
@@ -784,7 +903,9 @@
 
     <script>
         // ── State ──
-        const API_URL = 'http://localhost:8000';
+        const eventSource = new EventSource(
+            `/api/evaluate?policy_text=${encodeURIComponent(policy)}`
+        );
         let evalCount = 0;
         let currentRound = 0;
         const debateRounds = {};
@@ -1027,7 +1148,7 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
             source.addEventListener('debate', e => handleEvent('debate', e.data));
             source.addEventListener('synthesis_start', e => handleEvent('synthesis_start', e.data));
             source.addEventListener('synthesis', e => handleEvent('synthesis', e.data));
-            
+
             source.addEventListener('complete', e => {
                 handleEvent('complete', e.data);
                 source.close();
@@ -1097,4 +1218,5 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
         }
     </script>
 </body>
+
 </html>
