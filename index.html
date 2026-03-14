@@ -903,9 +903,6 @@
 
     <script>
         // ── State ──
-        const eventSource = new EventSource(
-            `/api/evaluate?policy_text=${encodeURIComponent(policy)}`
-        );
         let evalCount = 0;
         let currentRound = 0;
         const debateRounds = {};
@@ -1141,7 +1138,7 @@ A new Federal Urban Mobility Authority (FUMA) will be established to oversee imp
             showStatus('Initializing AI panel...', '0/5 agents');
 
             // Connect to SSE endpoint
-            const source = new EventSource(`${API_URL}/api/evaluate?policy_text=${encodeURIComponent(policyText)}`);
+            const source = new EventSource(`/api/evaluate?policy_text=${encodeURIComponent(policyText)}`);
 
             source.addEventListener('evaluation', e => handleEvent('evaluation', e.data));
             source.addEventListener('debate_round_start', e => handleEvent('debate_round_start', e.data));
